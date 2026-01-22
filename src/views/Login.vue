@@ -33,9 +33,7 @@ const handleLogin = async () => {
     });
 
     if (response.data.token) {
-      // On stocke le JSON (token + username) dans le navigateur
       localStorage.setItem('user', JSON.stringify(response.data));
-      // On redirige vers le dashboard
       router.push('/dashboard');
     }
   } catch (error) {
