@@ -18,16 +18,25 @@
       <div v-if="games.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="game in games" :key="game.id" class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
           <div class="p-6">
-            <h3 class="text-lg font-bold text-gray-900">{{ game.title }}</h3>
-            <p class="text-gray-600 mt-2 text-sm leading-relaxed">
-              {{ game.description }}
-            </p>
+            <h3 class="text-lg font-bold text-gray-900">{{ game.name }}</h3>
+            <p class="text-gray-600 mt-2 text-sm">{{ game.description || 'Pas de description' }}</p>
             <p class="text-sm text-gray-500 mt-1">{{ game.category }}</p>
             <div class="mt-4 flex items-center justify-between">
               <span class="text-xs font-semibold px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full">
                 {{ game.minPlayers }}-{{ game.maxPlayers }} joueurs
               </span>
               <button class="text-indigo-600 hover:underline text-sm font-medium">Détails</button>
+            </div>
+          </div>
+          <div class="h-48 w-full bg-gray-200">
+            <img
+                v-if="game.thumbnail"
+                :src="game.thumbnail"
+                class="w-full h-full object-cover"
+                alt="Image du jeu"
+            />
+            <div v-else class="w-full h-full flex items-center justify-center text-gray-400">
+              <span>Pas d'image</span>
             </div>
           </div>
         </div>
@@ -51,12 +60,10 @@ const games = ref([]);
 onMounted(async () => {
   try {
     const response = await api.get('/boardgames');
+    console.log("Mes jeux reçus :", response.data); // <--- AJOUTE CECI
     games.value = response.data;
   } catch (error) {
-    console.error("Erreur lors de la récupération des jeux", error);
-    if (error.response?.status === 403 || error.response?.status === 401) {
-      handleLogout(); // Si token invalide, on déconnecte
-    }
+    console.error("Détails de l'erreur :", error.response); // <--- ET CECI
   }
 });
 
