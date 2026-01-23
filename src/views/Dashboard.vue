@@ -8,13 +8,6 @@
     </nav>
 
     <main class="max-w-7xl mx-auto py-10 px-4">
-      <div class="flex justify-between items-center mb-8">
-        <h1 class="text-2xl font-bold text-gray-900">Ma Collection</h1>
-        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-          + Ajouter un jeu
-        </button>
-      </div>
-
       <div v-if="games.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="game in games" :key="game.id" class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
           <div class="p-6">
