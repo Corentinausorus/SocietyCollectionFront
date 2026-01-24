@@ -1,9 +1,14 @@
 <script setup>
-import HelloWorld from './views/HelloWorld.vue'
+import Navbar from './components/Navbar.vue';
 </script>
 
 <template>
-  <router-view />
+  <v-app :style="{ backgroundColor: 'var(--v-theme-background)' }">
+    <Navbar />
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <style scoped>
