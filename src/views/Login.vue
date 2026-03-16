@@ -10,8 +10,8 @@
           <v-card-text class="pa-8">
             <v-form @submit.prevent="handleLogin">
               <v-text-field
-                  v-model="user.username"
-                  label="Utilisateur"
+                  v-model="user.email"
+                  label="Email"
                   variant="underlined"
                   color="primary"
                   prepend-inner-icon="mdi-account"
@@ -45,13 +45,13 @@ import { useRouter } from 'vue-router';
 import api from '../services/api';
 
 const router = useRouter();
-const user = ref({ username: '', password: '' });
+const user = ref({ email: '', password: '' });
 const message = ref('');
 
 const handleLogin = async () => {
   try {
     const response = await api.post('/auth/login', {
-      username: user.value.username,
+      email: user.value.email,
       password: user.value.password
     });
 

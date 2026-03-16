@@ -3,6 +3,7 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
+import GameDetail from '../views/GameDetail.vue'
 
 
 const routes = [
@@ -14,6 +15,10 @@ const routes = [
         path: '/dashboard',
         component: Dashboard,
         meta: { requiresAuth: true }
+    },
+    {
+        path: '/boardgames/:id',
+        component: GameDetail
     }
 ]
 

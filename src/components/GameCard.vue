@@ -1,5 +1,42 @@
 <script setup>
-defineProps(['game']);
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import favoriteService from '../services/favorite.service.js';
+
+const router = useRouter();
+
+const props = defineProps(['game']);
+
+const isLoggedIn = !!localStorage.getItem('user');
+const isFavorite = ref(false);
+const loadingFavorite = ref(false);
+
+onMounted(async () => {
+  if (!isLoggedIn) return;
+  try {
+    isFavorite.value = await favoriteService.isFavorite(props.game.id);
+  } catch {
+    // non connecté ou erreur silencieuse
+  }
+});
+
+async function toggleFavorite() {
+  if (!isLoggedIn || loadingFavorite.value) return;
+  loadingFavorite.value = true;
+  try {
+    if (isFavorite.value) {
+      await favoriteService.removeFavorite(props.game.id);
+      isFavorite.value = false;
+    } else {
+      await favoriteService.addFavorite(props.game.id);
+      isFavorite.value = true;
+    }
+  } catch (error) {
+    console.error('Erreur favori :', error);
+  } finally {
+    loadingFavorite.value = false;
+  }
+}
 </script>
 
 <template>
@@ -7,6 +44,8 @@ defineProps(['game']);
       class="mx-auto h-100 d-flex flex-column rounded-xl"
       elevation="3"
       hover
+      style="cursor: pointer"
+      @click="router.push(`/boardgames/${game.id}`)"
   >
     <v-img
         :src="game.image || game.thumbnail"
@@ -46,10 +85,21 @@ defineProps(['game']);
       <v-spacer></v-spacer>
 
       <v-btn
+          v-if="isLoggedIn"
+          variant="text"
+          :color="isFavorite ? 'red' : 'grey'"
+          :icon="isFavorite ? 'mdi-heart' : 'mdi-heart-outline'"
+          size="large"
+          :loading="loadingFavorite"
+          @click.stop="toggleFavorite"
+      ></v-btn>
+
+      <v-btn
           variant="text"
           color="accent"
           icon="mdi-arrow-right-bold-circle"
           size="large"
+          @click.stop="router.push(`/boardgames/${game.id}`)"
       ></v-btn>
     </v-card-actions>
   </v-card>

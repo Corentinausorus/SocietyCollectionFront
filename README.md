@@ -4,7 +4,7 @@ Projet front en Vue 3 + Vite pour gérer une collection de jeux de société. Ce
 
 ## Prérequis
 - Node.js >= 16 et npm
-- Backend disponible et démarré (par défaut attendu sur `http://localhost:8080`)
+- Backend dispongit ible et démarré (par défaut attendu sur `http://localhost:8080`)
 - (Optionnel) Tailwind CSS si vous voulez utiliser les classes présentes
 
 ## Installation
